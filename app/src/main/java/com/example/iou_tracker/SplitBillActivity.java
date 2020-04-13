@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import io.opencensus.tags.Tag;
@@ -46,8 +48,11 @@ public class SplitBillActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     List<String> nameList = new ArrayList();
     EditText amount;
+    double amount2;
     double amount1;
     String gName;
+    Bill bill;
+    int flag=0;
     CollectionReference billRef = db.collection("Bill");
 
 
@@ -107,52 +112,82 @@ public class SplitBillActivity extends AppCompatActivity {
                 else {
                     try {
                         amount1 = Double.parseDouble(s);
+
+
                     } catch (Exception e) {
                         Toast.makeText(SplitBillActivity.this, "Yeha pr aaya toh hai ", Toast.LENGTH_SHORT).show();
                     }
 
                 }
-                Toast.makeText(SplitBillActivity.this,"Amount ="+amount.getText().toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplitBillActivity.this,"amount ="+amount.getText().toString(),Toast.LENGTH_SHORT).show();
 
                 splitBill();
             }
         });
 
     }
+
+
     public void splitBill(){
         final HashMap<String , Double> map = new HashMap<>();
         for(int i =0;i<selectedItems.size();i++){
             map.put(selectedItems.get(i),amount1/selectedItems.size());
         }
-//        db.collection("Bill").whereEqualTo("billNo",gName)
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @SuppressLint("NewApi")
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                        if(!queryDocumentSnapshots.isEmpty()) {
-////                            HashMap<String, Double> map1 = new HashMap<>();
-////                            for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
-////                                map1 = (HashMap<String, Double>) snapshot.get("listOfPerson");
-////                            }
-//
-//
-//
-//
-//                            db.collection("Bill").document(gName).update("listOfPerson",map);
-//                            db.collection("Bill").document(gName).update("Amount",amount1);
-//                            Intent toBack = new Intent(SplitBillActivity.this,HomeActivity.class);
-//                            startActivity(toBack);
-//                        }
-//                        else{
-                            Bill bill = new Bill(gName,map,amount1);
-                            System.out.println(bill.billNo);
+
+        db.collection("Bill").whereEqualTo("billNo",gName)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (!queryDocumentSnapshots.isEmpty() && flag ==0) {
+                            flag = 1;
+                            HashMap<String, Double> map1 = new HashMap<>();
+                            for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                map1 = (HashMap<String, Double>) snapshot.get("listOfPerson");
+                               amount2 = (Double)snapshot.get("amount");
+                            }
+                            Set<String> key = new HashSet<>();
+
+                            key = map1.keySet();
+                            Double d1;
+                            for (String ele : key) {
+                                Double d = map.get(ele);
+                                if (d != null) {
+                                    d1 = map1.get(ele) + d;
+                                    map.replace(ele, d1);
+                                } else {
+                                    d1 = map1.get(ele);
+                                    map.put(ele, d1);
+                                }
+                            }
+                            Toast.makeText(SplitBillActivity.this, "map =" + map, Toast.LENGTH_LONG).show();
+
+
+                            Bill bill  = new Bill(gName, map, amount1 + amount2);
                             billRef.document(gName).set(bill);
-                            Intent toBack = new Intent(SplitBillActivity.this,HomeActivity.class);
+                            Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
                             startActivity(toBack);
-//                        }
-//                    }
-//                });
+
+                        } else if(flag == 0){
+                            Bill bill  = new Bill(gName, map, amount1);
+                            billRef.document(gName).set(bill);
+                            Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
+                            startActivity(toBack);
+                            flag =1;
 
 
+                        }
+
+
+
+                    }
+                });
+        last();
     }
+
+    void last() {
+        if(bill != null)
+            billRef.document(gName).set(bill);
+    }
+
 }
