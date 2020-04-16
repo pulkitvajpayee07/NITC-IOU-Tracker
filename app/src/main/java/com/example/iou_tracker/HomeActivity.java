@@ -49,5 +49,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(ToCreateGroup);
             }
         });
+
+        btUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ToUpdate = new Intent(HomeActivity.this, UpdateActivity.class);
+                startActivity(ToUpdate);
+                //finish();
+            }
+        });
     }
 }
