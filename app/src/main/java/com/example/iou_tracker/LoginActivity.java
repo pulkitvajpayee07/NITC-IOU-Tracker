@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     EditText emailId, password;
     Button btnSignIn;
-    TextView tvSignUp;
+    TextView tvSignUp, tvForgetPass;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override
@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editText2);
         btnSignIn = findViewById(R.id.button1);
         tvSignUp = findViewById(R.id.textView);
+        tvForgetPass = findViewById(R.id.textView_forget);
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
 
@@ -95,6 +96,16 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intSignUp);
             }
         });
+
+        tvForgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ToForget = new Intent(LoginActivity.this,ForgetActivity.class);
+                startActivity(ToForget);
+                finish();
+            }
+        });
+
     }
     @Override
     protected void onStart(){

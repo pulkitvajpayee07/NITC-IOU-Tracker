@@ -13,8 +13,8 @@
         android:layout_marginTop="176dp"
         android:ems="10"
         android:hint="Email"
-        android:textSize="20dp"
         android:inputType="textEmailAddress"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,37 +28,52 @@
         android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="Password"
-        android:textSize="20dp"
         android:inputType="textPassword"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="313dp"
-        android:layout_height="42dp"
-        android:text="Not registered? Sign Up here"
+        android:id="@+id/textView_forget"
+        android:layout_width="216dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="264dp"
+        android:text="Forget password"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.979"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button1"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintStart_toStartOf="@+id/button1" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="276dp"
+        android:layout_marginBottom="176dp"
         android:text="Sign In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.962" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="313dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="96dp"
+        android:text="Not registered? Sign Up here"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.632"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        app:layout_constraintVertical_bias="0.328" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

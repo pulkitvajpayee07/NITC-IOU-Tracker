@@ -14,6 +14,7 @@
         <activity android:name=".CreateGroupActivity" />
         <activity android:name=".HaveGroupActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".ForgetActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".UpdateActivity" />
         <activity android:name=".MainActivity">
