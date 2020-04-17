@@ -10,7 +10,7 @@
         android:id="@+id/textViewSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="100dp"
         android:text="Don't have an Account.SignUp?"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/buttonLogin"
@@ -56,6 +56,17 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <TextView
+        android:id="@+id/textView_forget"
+        android:layout_width="216dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="172dp"
+        android:text="Forget password"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin" />
 
     <ProgressBar
         android:id="@+id/progressBar"
