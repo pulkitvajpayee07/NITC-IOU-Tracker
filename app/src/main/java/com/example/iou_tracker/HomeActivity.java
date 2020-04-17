@@ -20,15 +20,16 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.button2);
         btBillSplit = findViewById(R.id.button3);
         btCreateGroup = findViewById(R.id.button4);
-        btPaidTo = findViewById(R.id.button5);
-        btCheckBalance = findViewById(R.id.button6);
+        btPaidTo = findViewById(R.id.button6);
+        btCheckBalance = findViewById(R.id.button5);
         btUpdateProfile = findViewById(R.id.button7);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intToMain = new Intent(HomeActivity.this,LoginActivity.class);
+                finish();
+                Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
                 startActivity(intToMain);
             }
         });
@@ -47,6 +48,39 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent ToCreateGroup = new Intent(HomeActivity.this,CreateGroupActivity.class);
                 startActivity(ToCreateGroup);
+                finish();
+            }
+        });
+        btPaidTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSelecetGroup = new Intent(HomeActivity.this,SelectGroupActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("Activity","paidTo");
+                toSelecetGroup.putExtras(bundle);
+                startActivity(toSelecetGroup);
+                finish();
+            }
+        });
+        btCheckBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSelectGroup = new Intent(HomeActivity.this,SelectGroupActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Activity","checkBalance");
+                toSelectGroup.putExtras(bundle);
+                startActivity(toSelectGroup);
+                finish();
+            }
+        });
+        btUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toUpdate = new Intent(HomeActivity.this,Update_Profile.class);
+                startActivity(toUpdate);
+                finish();
             }
         });
     }

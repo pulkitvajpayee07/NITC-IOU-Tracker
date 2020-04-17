@@ -9,97 +9,144 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.opencensus.tags.Tag;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText emailId, password,fname,contact;
-    Button btnSignUp;
-    TextView tvSignIn;
-    FirebaseAuth mFirebaseAuth;
-    FirebaseFirestore fStore;
-    String userId;
+
+    FirebaseAuth mAuth;
+    EditText editTextEmail, editTextPassword;
+    ProgressBar progressBar;
+    TextView signUp;
+    Button login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        emailId = findViewById(R.id.editText);
-        password = findViewById(R.id.editText2);
-        fname = findViewById(R.id.editText4);
-        contact = findViewById(R.id.editText3);
-        btnSignUp = findViewById(R.id.button);
-        tvSignIn = findViewById(R.id.textView);
-        fStore = FirebaseFirestore.getInstance();
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String email = emailId.getText().toString().trim();
-                final String pwd = password.getText().toString().trim();
-                final String FName = fname.getText().toString();
-                final String Contact = contact.getText().toString();
+        mAuth = FirebaseAuth.getInstance();
 
-                if(email.isEmpty()){
-                    emailId.setError("Please enter email id");
-                    emailId.requestFocus();
-                }
-                else if(pwd.isEmpty()) {
-                    password.setError("Please enter your password");
-                    password.requestFocus();
-                }
-                else if(email.isEmpty() && pwd.isEmpty()){
-                    Toast.makeText(MainActivity.this,"Fields are Empty!",Toast.LENGTH_SHORT).show();
-                }
-                else if(!(email.isEmpty() && pwd.isEmpty() && FName.isEmpty() && Contact.isEmpty())){
-                    mFirebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(MainActivity.this,"signUp Unsuccessful,please Try Again",Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                userId = mFirebaseAuth.getCurrentUser().getUid();
-                                DocumentReference documentReference = fStore.collection("Users").document(userId);
-                                Map<String,Object> user = new HashMap<>();
-                                user.put("FName",FName);
-                                user.put("Email",email);
-                                user.put("Contact",Contact);
-                                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("TAG","onSuccess: User profile is created for "+userId);
-                                    }
-                                });
-                                startActivity(new Intent( MainActivity.this,HomeActivity.class));
-                            }
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(MainActivity.this,"Error Occurred! ",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        tvSignIn.setOnClickListener(new View.OnClickListener() {
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        signUp = findViewById(R.id.textViewSignup);
+
+        login = findViewById(R.id.buttonLogin);
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
+                userLogin();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Registration.class));
+
             }
         });
     }
+        private void userLogin() {
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
+
+
+
+            if (email.isEmpty()) {
+                editTextEmail.setError("Email is required");
+                editTextEmail.requestFocus();
+                return;
+            }
+
+
+            String expression = "^[\\w.+\\-]+@nitc\\.ac\\.in$";
+            CharSequence inputStr = email;
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(inputStr);
+
+
+            if (!matcher.matches() ){
+                editTextEmail.setError("Please enter a valid email");
+                editTextEmail.requestFocus();
+                return;
+            }
+
+            if (password.isEmpty()) {
+                editTextPassword.setError("Password is required");
+                editTextPassword.requestFocus();
+                return;
+            }
+
+            if (password.length() < 6) {
+                editTextPassword.setError("Minimum length of password should be 6");
+                editTextPassword.requestFocus();
+                return;
+            }
+
+
+
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressBar.setVisibility(View.GONE);
+
+                    if(!mAuth.getCurrentUser().isEmailVerified())
+                    {
+                        Toast.makeText (getApplicationContext(),"Verify email id first", Toast.LENGTH_SHORT).show();
+
+                        return;
+                    }
+
+                    else if (task.isSuccessful()) {
+                        finish();
+                        Toast.makeText(getApplicationContext(), "Logged In successfully", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
+
+        @Override
+        protected void onStart() {
+            super.onStart();
+
+
+            if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
+
+                finish();
+                //Log.d("TAG", String.valueOf(mAuth.getCurrentUser()));
+
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            }
+        }
+
+
 }

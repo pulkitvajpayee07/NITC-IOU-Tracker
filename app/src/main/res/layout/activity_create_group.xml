@@ -10,44 +10,55 @@
         android:id="@+id/button11"
         android:layout_width="215dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="48dp"
+
+        android:layout_marginStart="124dp"
+
+        android:layout_marginTop="20dp"
         android:text="Create"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/list" />
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="386dp"
-        android:layout_height="458dp"
-        android:layout_marginTop="132dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="342dp"
+        android:layout_height="422dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="@+id/editText5"
+        app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
     <EditText
         android:id="@+id/editText5"
-        android:layout_width="399dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="308dp"
+        android:layout_height="48dp"
         android:ems="10"
         android:hint="Group Name"
         android:inputType="textPersonName"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/list"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="392dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="176dp"
         android:text="Select persons"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/list" />
+
+    <Button
+        android:id="@+id/button19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

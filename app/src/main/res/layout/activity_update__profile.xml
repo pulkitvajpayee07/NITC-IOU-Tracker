@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Update_Profile">
+
+    <EditText
+        android:id="@+id/editText_name"
+        android:layout_width="257dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Update Name"
+        android:inputType="textPersonName"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_mobile"
+        app:layout_constraintStart_toStartOf="@+id/editText_mobile" />
+
+    <EditText
+        android:id="@+id/editText_mobile"
+        android:layout_width="257dp"
+        android:layout_height="54dp"
+        android:ems="10"
+        android:hint="Update Mobile Number"
+        android:inputType="phone"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414" />
+
+    <Button
+        android:id="@+id/button_update"
+        android:layout_width="165dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="44dp"
+        android:text="Update Profile"
+        app:layout_constraintStart_toStartOf="@+id/editText_mobile"
+        app:layout_constraintTop_toBottomOf="@+id/editText_mobile" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="106dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="40dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="@+id/button_update"
+        app:layout_constraintTop_toBottomOf="@+id/button_update" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

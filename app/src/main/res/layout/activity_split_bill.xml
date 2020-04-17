@@ -9,46 +9,83 @@
 
     <ListView
         android:id="@+id/listPerson"
-        android:layout_width="363dp"
-        android:layout_height="395dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="301dp"
+        android:layout_height="363dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.303"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43">
+
+    </ListView>
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="355dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="16dp"
-        android:hint="Select Persons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="12dp"
+        android:text="Select persons"
+        android:textColor="#000000"
         android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <Button
         android:id="@+id/button12"
-        android:layout_width="207dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="72dp"
+        android:layout_width="151dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="4dp"
         android:text="Split"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/editText7"
+        app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
     <EditText
         android:id="@+id/editText7"
-        android:layout_width="359dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="156dp"
-        android:ems="10"
-        android:inputType="number"
+        android:layout_width="245dp"
+        android:layout_height="47dp"
         android:digits="0123456789."
+        android:ems="10"
         android:hint="Enter Amount"
+        android:inputType="number"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/listPerson"
+        app:layout_constraintTop_toBottomOf="@+id/listPerson"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="164dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text=" Paid By"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/listPerson"
+        app:layout_constraintStart_toStartOf="@+id/listPerson" />
+
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="60dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="@+id/button12"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button12"
+        app:layout_constraintTop_toTopOf="@+id/button12" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,15 +45,16 @@ public class SplitBillActivity extends AppCompatActivity {
 
     ArrayList<String> selectedItems = new ArrayList<>();
     ListView listView;
-    Button btSplit;
+    Button btSplit,btBack;
+    Spinner spinner;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     List<String> nameList = new ArrayList();
     EditText amount;
     double amount2;
     double amount1;
     String gName;
-    Bill bill;
     int flag=0;
+    String paidBy;
     CollectionReference billRef = db.collection("Bill");
 
 
@@ -62,13 +64,16 @@ public class SplitBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_split_bill);
 
         Bundle bundle = getIntent().getExtras();
-        gName = bundle.getString("gName");
+        if(bundle != null)
+            gName = bundle.getString("gName");
         Toast.makeText(SplitBillActivity.this,gName,Toast.LENGTH_SHORT).show();
 
+        spinner =  findViewById(R.id.spinner);
         listView = findViewById(R.id.listPerson);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         amount = findViewById(R.id.editText7);
         btSplit = findViewById(R.id.button12);
+        btBack = findViewById(R.id.button16);
 
         db.collection("Group").whereEqualTo("gName",gName)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -76,7 +81,6 @@ public class SplitBillActivity extends AppCompatActivity {
             public void onEvent( QuerySnapshot queryDocumentSnapshots,  FirebaseFirestoreException e) {
                 nameList.clear();
                 for (DocumentSnapshot snapshot : queryDocumentSnapshots){
-
                     nameList= (ArrayList<String>)snapshot.get("names");
                 }
                 String[] names = new String[nameList.size()];
@@ -98,30 +102,35 @@ public class SplitBillActivity extends AppCompatActivity {
                             selectedItems.add(selectedItem);
                     }
                 });
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<>(SplitBillActivity.this,android.R.layout.simple_spinner_item,names);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter1);
             }
         });
+
+
 
         btSplit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String s = amount.getText().toString();
-                if(s.trim().equals("")){
-                    Toast.makeText(SplitBillActivity.this,"Yeha aaya ",Toast.LENGTH_SHORT).show();
+                if(s.trim().isEmpty()){
+                    amount.setError("Please enter Amount");
+                    amount.requestFocus();
                 }
                 else {
-                    try {
-                        amount1 = Double.parseDouble(s);
-
-
-                    } catch (Exception e) {
-                        Toast.makeText(SplitBillActivity.this, "Yeha pr aaya toh hai ", Toast.LENGTH_SHORT).show();
-                    }
-
+                    amount1 = Double.parseDouble(s);
+                    paidBy = (String)spinner.getSelectedItem();
+                    Toast.makeText(SplitBillActivity.this,"amount ="+paidBy,Toast.LENGTH_SHORT).show();
+                    splitBill();
                 }
-                Toast.makeText(SplitBillActivity.this,"amount ="+amount.getText().toString(),Toast.LENGTH_SHORT).show();
-
-                splitBill();
+            }
+        });
+        btBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SplitBillActivity.this,HomeActivity.class));
             }
         });
 
@@ -134,60 +143,69 @@ public class SplitBillActivity extends AppCompatActivity {
             map.put(selectedItems.get(i),amount1/selectedItems.size());
         }
 
+        if(map.get(paidBy) != null){
+            map.replace(paidBy,(amount1/selectedItems.size()) - amount1);
+        }
+        else{
+            map.put(paidBy, -amount1);
+        }
         db.collection("Bill").whereEqualTo("billNo",gName)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (!queryDocumentSnapshots.isEmpty() && flag ==0) {
-                            flag = 1;
-                            HashMap<String, Double> map1 = new HashMap<>();
-                            for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
-                                map1 = (HashMap<String, Double>) snapshot.get("listOfPerson");
-                               amount2 = (Double)snapshot.get("amount");
-                            }
-                            Set<String> key = new HashSet<>();
+            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (!queryDocumentSnapshots.isEmpty() && flag ==0) {
+                        flag = 1;
+                        HashMap<String, Double> map1 = new HashMap<>();
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            map1 = (HashMap<String, Double>) snapshot.get("listOfPerson");
+                           amount2 = (Double)snapshot.get("amount");
+                        }
+                        Set<String> key = new HashSet<>();
 
-                            key = map1.keySet();
-                            Double d1;
-                            for (String ele : key) {
-                                Double d = map.get(ele);
+                        key = map.keySet();
+                        Double d1;
+                        for (String ele : key) {
+                            Double d = map1.get(ele);
+                            if (ele == paidBy) {
+
                                 if (d != null) {
-                                    d1 = map1.get(ele) + d;
-                                    map.replace(ele, d1);
+                                    Double d2 = map.get(ele);
+                                    d1 =  d + d2;
+                                    map1.replace(ele, d1);
                                 } else {
-                                    d1 = map1.get(ele);
-                                    map.put(ele, d1);
+                                    d1 =   map.get(ele);
+                                    map1.put(ele, d1);
                                 }
                             }
-                            Toast.makeText(SplitBillActivity.this, "map =" + map, Toast.LENGTH_LONG).show();
-
-
-                            Bill bill  = new Bill(gName, map, amount1 + amount2);
-                            billRef.document(gName).set(bill);
-                            Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
-                            startActivity(toBack);
-
-                        } else if(flag == 0){
-                            Bill bill  = new Bill(gName, map, amount1);
-                            billRef.document(gName).set(bill);
-                            Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
-                            startActivity(toBack);
-                            flag =1;
-
-
+                            else{
+                                if (d != null) {
+                                    d1 = map.get(ele) + d;
+                                    map1.replace(ele, d1);
+                                } else {
+                                    d1 = map.get(ele);
+                                    map1.put(ele, d1);
+                                }
+                            }
                         }
+                        Toast.makeText(SplitBillActivity.this, "map =" + map1, Toast.LENGTH_LONG).show();
 
 
+                        Bill bill  = new Bill(gName, map1, amount1 + amount2);
+                        billRef.document(gName).set(bill);
+                        Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
+                        startActivity(toBack);
+                        finish();
 
+                    } else if(flag == 0){
+                        Bill bill  = new Bill(gName, map, amount1);
+                        billRef.document(gName).set(bill);
+                        flag =1;
+                        Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
+                        startActivity(toBack);
+                        finish();
                     }
-                });
-        last();
+                }
+            });
     }
-
-    void last() {
-        if(bill != null)
-            billRef.document(gName).set(bill);
-    }
-
 }
