@@ -3,7 +3,7 @@ package com.example.iou_tracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Bill {
+public class  Bill {
     public String billNo;
     public HashMap<String, Double> listOfPerson = new HashMap<>();
     public Double amount;

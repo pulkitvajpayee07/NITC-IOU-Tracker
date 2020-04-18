@@ -124,7 +124,7 @@ public class paidTo extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-                                                Bill bill = new Bill(gName, map1, amount2 - (amount1 * 2));
+                                                Bill bill = new Bill(gName, map1, amount2 - amount1);
                                                 billRef.document(gName).set(bill);
                                                 Intent toBack = new Intent(paidTo.this, HomeActivity.class);
                                                 startActivity(toBack);

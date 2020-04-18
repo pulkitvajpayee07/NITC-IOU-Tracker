@@ -55,9 +55,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toSelecetGroup = new Intent(HomeActivity.this,SelectGroupActivity.class);
-
                 Bundle bundle = new Bundle();
-
                 bundle.putString("Activity","paidTo");
                 toSelecetGroup.putExtras(bundle);
                 startActivity(toSelecetGroup);
