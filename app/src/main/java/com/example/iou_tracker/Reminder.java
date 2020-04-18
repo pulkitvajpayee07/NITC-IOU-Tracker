@@ -41,9 +41,8 @@ public class Reminder extends AppCompatActivity {
             public void onClick(View view) {
                 sendEmail();
             }
+
         });
-        Intent toHome = new Intent(Reminder.this,HomeActivity.class);
-        startActivity(toHome);
         btBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
