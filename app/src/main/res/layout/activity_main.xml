@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
         android:text="Don't have an Account.SignUp?"
+        android:textColor="#1FBD25"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/buttonLogin"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="219dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="password"
         android:inputType="textPassword"
@@ -67,5 +68,15 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/buttonLogin"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Forgot Password?"
+        android:textColor="#D6261A"
+        app:layout_constraintEnd_toEndOf="@+id/textViewSignup"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
