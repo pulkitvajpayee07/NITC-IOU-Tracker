@@ -26,7 +26,7 @@ public class checkBalance extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String gName;
-    Button btReminder;
+    Button btReminder,btBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,7 @@ public class checkBalance extends AppCompatActivity {
         TextView groupName = findViewById(R.id.textView6);
         ListView listView = findViewById(R.id.listBalance);
         btReminder = findViewById(R.id.button15);
+        btBack = findViewById(R.id.button20);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             gName = bundle.getString("gName");
@@ -42,6 +43,13 @@ public class checkBalance extends AppCompatActivity {
         }
 
 
+
+        btBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(checkBalance.this,HomeActivity.class));
+            }
+        });
         db.collection("Bill").whereEqualTo("billNo",gName).
                 addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

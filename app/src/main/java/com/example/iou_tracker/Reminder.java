@@ -70,6 +70,7 @@ public class Reminder extends AppCompatActivity {
 
             //Executing sendmail to send email
             sm.execute();
+            startActivity(new Intent(Reminder.this,HomeActivity.class));
         }
     }
 
