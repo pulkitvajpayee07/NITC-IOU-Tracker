@@ -1,4 +1,4 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import android.app.ProgressDialog;
 import android.content.Context;

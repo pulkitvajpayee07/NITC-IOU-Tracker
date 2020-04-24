@@ -1,4 +1,4 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,17 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.errorprone.annotations.Var;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.v1.WriteResult;
 
 public class Delete_Group extends AppCompatActivity {
 
@@ -62,6 +57,7 @@ public class Delete_Group extends AppCompatActivity {
                                         db.collection("Bill").document(gName).delete();
                                         db.collection("Group").document(gName).delete();
                                         Toast.makeText(getApplicationContext(), "Group Deleted successfully", Toast.LENGTH_SHORT).show();
+                                        flag = 1;
                                         startActivity(new Intent(Delete_Group.this,HomeActivity.class));
                                     }
                                 });
@@ -79,11 +75,14 @@ public class Delete_Group extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(Delete_Group.this,HomeActivity.class));
 
                             }
                         }
                         if(flag == 0){
                             Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(Delete_Group.this,HomeActivity.class));
+
 
                         }
 

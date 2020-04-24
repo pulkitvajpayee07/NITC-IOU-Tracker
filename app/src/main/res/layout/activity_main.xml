@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Don't have an Account.SignUp?"
+        android:text="Don't have an Account?SignUp."
         android:textColor="#F2E77302"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"

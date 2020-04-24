@@ -1,10 +1,9 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.cardemulation.HostNfcFService;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;

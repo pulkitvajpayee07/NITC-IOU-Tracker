@@ -1,4 +1,4 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

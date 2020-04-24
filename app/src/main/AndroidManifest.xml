@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.iou_tracker">
+    package="com.nitc.iou_tracker">
 
     <application
         android:allowBackup="true"
@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".ManageGroup"></activity>
-        <activity android:name=".Delete_Group" />
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".Registration" />
-        <activity android:name=".Reminder" />
-        <activity android:name=".Update_Profile" />
-        <activity android:name=".checkBalance" />
-        <activity android:name=".paidTo" />
-        <activity android:name=".SplitBillActivity" />
-        <activity android:name=".SelectGroupActivity" />
-        <activity android:name=".CreateGroupActivity" />
-        <activity android:name=".HaveGroupActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.nitc.iou_tracker.ManageGroup"></activity>
+        <activity android:name="com.nitc.iou_tracker.Delete_Group" />
+        <activity android:name="com.nitc.iou_tracker.ForgotPassword" />
+        <activity android:name="com.nitc.iou_tracker.Registration" />
+        <activity android:name="com.nitc.iou_tracker.Reminder" />
+        <activity android:name="com.nitc.iou_tracker.Update_Profile" />
+        <activity android:name="com.nitc.iou_tracker.checkBalance" />
+        <activity android:name="com.nitc.iou_tracker.paidTo" />
+        <activity android:name="com.nitc.iou_tracker.SplitBillActivity" />
+        <activity android:name="com.nitc.iou_tracker.SelectGroupActivity" />
+        <activity android:name="com.nitc.iou_tracker.CreateGroupActivity" />
+        <activity android:name="com.nitc.iou_tracker.HaveGroupActivity" />
+        <activity android:name="com.nitc.iou_tracker.HomeActivity" />
+        <activity android:name="com.nitc.iou_tracker.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

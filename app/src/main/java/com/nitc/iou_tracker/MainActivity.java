@@ -1,4 +1,4 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,12 +80,15 @@ public class MainActivity extends AppCompatActivity {
 
 
             String expression = "^[\\w.+\\-]+@nitc\\.ac\\.in$";
+            String expression2 = "^[\\w.+\\-]+@gmail\\.com$";
             CharSequence inputStr = email;
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Pattern pattern1 = Pattern.compile(expression2, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(inputStr);
+            Matcher matcher1 = pattern1.matcher(inputStr);
 
 
-            if (!matcher.matches() ){
+            if (!matcher.matches() && !matcher1.matches()){
                 editTextEmail.setError("Please enter a valid email");
                 editTextEmail.requestFocus();
                 return;
@@ -106,10 +109,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
-                        if(mAuth != null)
-                        if (!mAuth.getCurrentUser().isEmailVerified()) {
-                            Toast.makeText(getApplicationContext(), "Verify email id first", Toast.LENGTH_SHORT).show();
 
+                        if (mAuth == null && !mAuth.getCurrentUser().isEmailVerified()) {
+                            Toast.makeText(getApplicationContext(), "Verify email id first", Toast.LENGTH_SHORT).show();
                             return;
                         } else if (task.isSuccessful()) {
                             finish();

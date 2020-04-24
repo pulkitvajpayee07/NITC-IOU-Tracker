@@ -1,6 +1,5 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Bill {

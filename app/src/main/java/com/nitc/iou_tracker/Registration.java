@@ -1,4 +1,4 @@
-package com.example.iou_tracker;
+package com.nitc.iou_tracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +72,9 @@ public class Registration extends AppCompatActivity {
         CharSequence inputStr = email;
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
+        String expression2 = "^[\\w.+\\-]+@gmail\\.com$";
+        Pattern pattern1 = Pattern.compile(expression2, Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern1.matcher(inputStr);
 
         if(name.isEmpty()){
             fNmae.setError("Please Enter Name");
@@ -83,7 +86,7 @@ public class Registration extends AppCompatActivity {
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
 
-        } else if (!matcher.matches()) {
+        } else if (!matcher.matches() && !matcher1.matches()) {
             editTextEmail.setError("Please enter a valid email");
             editTextEmail.requestFocus();
 
