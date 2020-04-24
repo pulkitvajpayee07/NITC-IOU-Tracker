@@ -54,7 +54,7 @@ public class SelectGroupActivity extends AppCompatActivity {
              email = user.getEmail();
         }
         db.collection("Users").whereEqualTo("Email",email)
-        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(queryDocumentSnapshots != null)

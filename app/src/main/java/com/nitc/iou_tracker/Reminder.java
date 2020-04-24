@@ -38,6 +38,7 @@ public class Reminder extends AppCompatActivity {
     private ArrayList<String> users=new ArrayList<>();
     private Spinner spinner;
     private String email ="";
+    private int flag = 0;
 
     //Send button
     private Button buttonSend;
@@ -99,7 +100,6 @@ public class Reminder extends AppCompatActivity {
         btBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendEmail();
                 startActivity(new Intent(Reminder.this,HomeActivity.class));
             }
         });
@@ -135,7 +135,8 @@ public class Reminder extends AppCompatActivity {
                                     if(subject.isEmpty()){
                                         editTextMessage.setError("Please Enter Message");
                                         editTextMessage.requestFocus();
-                                    }else {
+                                    }else if(flag == 0){
+                                        flag = 1;
                                         //Creating SendMail object
                                         SendMail sm = new SendMail(Reminder.this, email, subject, message);
 

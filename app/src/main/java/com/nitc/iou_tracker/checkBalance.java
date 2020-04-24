@@ -103,14 +103,15 @@ public class checkBalance extends AppCompatActivity {
             public void onClick(View view) {
                 if(flag == 1){
                     Toast.makeText(checkBalance.this,"you cannot send reminder",Toast.LENGTH_LONG).show();
-                    return;
+
+                }else {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("gName", gName);
+                    Intent toReminder = new Intent(checkBalance.this, Reminder.class);
+                    toReminder.putExtras(bundle1);
+                    startActivity(toReminder);
+                    finish();
                 }
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("gName",gName);
-                Intent toReminder = new Intent(checkBalance.this,Reminder.class);
-                toReminder.putExtras(bundle1);
-                startActivity(toReminder);
-                finish();
             }
         });
     }

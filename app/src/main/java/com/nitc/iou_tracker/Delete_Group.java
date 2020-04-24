@@ -73,13 +73,15 @@ public class Delete_Group extends AppCompatActivity {
                                 builder.show();
                                 flag = 1;
                             }
-                            else{
+                            else if (flag == 0){
+                                flag =1;
                                 Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(Delete_Group.this,HomeActivity.class));
 
                             }
                         }
                         if(flag == 0){
+                            flag=1;
                             Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(Delete_Group.this,HomeActivity.class));
 

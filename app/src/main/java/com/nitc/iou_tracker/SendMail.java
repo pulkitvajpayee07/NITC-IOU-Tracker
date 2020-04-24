@@ -47,9 +47,9 @@ public class SendMail extends AsyncTask<Void, Void , Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
-        progressDialog.dismiss();
         //Showing a success message
         Toast.makeText(context,"Message Sent", Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
     }
     @Override
     protected Void doInBackground(Void... params) {
