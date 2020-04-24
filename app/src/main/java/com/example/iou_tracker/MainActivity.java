@@ -89,48 +89,42 @@ public class MainActivity extends AppCompatActivity {
                 editTextEmail.setError("Please enter a valid email");
                 editTextEmail.requestFocus();
                 return;
-            }
-
-            if (password.isEmpty()) {
+            }else if (password.isEmpty()) {
                 editTextPassword.setError("Password is required");
                 editTextPassword.requestFocus();
                 return;
-            }
-
-            if (password.length() < 6) {
+            }else if (password.length() < 6) {
                 editTextPassword.setError("Minimum length of password should be 6");
                 editTextPassword.requestFocus();
                 return;
+            }else {
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if(mAuth != null)
+                        if (!mAuth.getCurrentUser().isEmailVerified()) {
+                            Toast.makeText(getApplicationContext(), "Verify email id first", Toast.LENGTH_SHORT).show();
+
+                            return;
+                        } else if (task.isSuccessful()) {
+                            finish();
+                            Toast.makeText(getApplicationContext(), "Logged In successfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } else {
+
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-
-
-
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    progressBar.setVisibility(View.GONE);
-
-                    if(!mAuth.getCurrentUser().isEmailVerified())
-                    {
-                        Toast.makeText (getApplicationContext(),"Verify email id first", Toast.LENGTH_SHORT).show();
-
-                        return;
-                    }
-
-                    else if (task.isSuccessful()) {
-                        finish();
-                        Toast.makeText(getApplicationContext(), "Logged In successfully", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    } else {
-
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 
         }
 

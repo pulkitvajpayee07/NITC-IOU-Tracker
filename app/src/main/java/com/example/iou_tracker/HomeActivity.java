@@ -6,31 +6,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
-    Button btnLogout,btBillSplit,btCreateGroup,btCheckBalance,btPaidTo,btUpdateProfile;
+    Button btnLogout,btBillSplit,btManageGroup,btCheckBalance,btPaidTo,btUpdateProfile;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         btnLogout = findViewById(R.id.button2);
         btBillSplit = findViewById(R.id.button3);
-        btCreateGroup = findViewById(R.id.button4);
+        btManageGroup = findViewById(R.id.button4);
         btPaidTo = findViewById(R.id.button6);
         btCheckBalance = findViewById(R.id.button5);
         btUpdateProfile = findViewById(R.id.button7);
+        progressBar = findViewById(R.id.progressBar6);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
                 startActivity(intToMain);
+                progressBar.setVisibility(View.GONE);
+                finish();
             }
         });
 
@@ -43,10 +49,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        btCreateGroup.setOnClickListener(new View.OnClickListener() {
+        btManageGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ToCreateGroup = new Intent(HomeActivity.this,CreateGroupActivity.class);
+                Intent ToCreateGroup = new Intent(HomeActivity.this,ManageGroup.class);
                 startActivity(ToCreateGroup);
                 finish();
             }

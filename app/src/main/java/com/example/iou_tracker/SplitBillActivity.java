@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -56,6 +59,7 @@ public class SplitBillActivity extends AppCompatActivity {
     int flag=0;
     String paidBy;
     CollectionReference billRef = db.collection("Bill");
+    private ProgressBar progressBar;
 
 
     @Override
@@ -66,7 +70,6 @@ public class SplitBillActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null)
             gName = bundle.getString("gName");
-        Toast.makeText(SplitBillActivity.this,gName,Toast.LENGTH_SHORT).show();
 
         spinner =  findViewById(R.id.spinner);
         listView = findViewById(R.id.listPerson);
@@ -74,12 +77,14 @@ public class SplitBillActivity extends AppCompatActivity {
         amount = findViewById(R.id.editText7);
         btSplit = findViewById(R.id.button12);
         btBack = findViewById(R.id.button16);
+        progressBar = findViewById(R.id.progressBar5);
 
         db.collection("Group").whereEqualTo("gName",gName)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent( QuerySnapshot queryDocumentSnapshots,  FirebaseFirestoreException e) {
                 nameList.clear();
+                if(queryDocumentSnapshots != null)
                 for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                     nameList= (ArrayList<String>)snapshot.get("names");
                 }
@@ -87,7 +92,7 @@ public class SplitBillActivity extends AppCompatActivity {
                 for(int j =0;j<nameList.size();j++){
                     names[j] = nameList.get(j);
                 }
-
+                Arrays.sort(names);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(SplitBillActivity.this,R.layout.row_layout, R.id.txt_lan,names);
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
@@ -122,7 +127,6 @@ public class SplitBillActivity extends AppCompatActivity {
                 else {
                     amount1 = Double.parseDouble(s);
                     paidBy = (String)spinner.getSelectedItem();
-                    Toast.makeText(SplitBillActivity.this,"amount ="+paidBy,Toast.LENGTH_SHORT).show();
                     splitBill();
                 }
             }
@@ -138,6 +142,7 @@ public class SplitBillActivity extends AppCompatActivity {
 
 
     public void splitBill(){
+        progressBar.setVisibility(View.VISIBLE);
         final HashMap<String , Double> map = new HashMap<>();
         for(int i =0;i<selectedItems.size();i++){
             map.put(selectedItems.get(i),amount1/selectedItems.size());
@@ -154,7 +159,7 @@ public class SplitBillActivity extends AppCompatActivity {
                 @SuppressLint("NewApi")
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                    if (!queryDocumentSnapshots.isEmpty() && flag ==0) {
+                    if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() && flag ==0) {
                         flag = 1;
                         HashMap<String, Double> map1 = new HashMap<>();
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
@@ -188,11 +193,10 @@ public class SplitBillActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        Toast.makeText(SplitBillActivity.this, "map =" + map1, Toast.LENGTH_LONG).show();
-
 
                         Bill bill  = new Bill(gName, map1, amount1 + amount2);
                         billRef.document(gName).set(bill);
+                        Toast.makeText(SplitBillActivity.this,"Bill Split Done", Toast.LENGTH_LONG).show();
                         Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
                         startActivity(toBack);
                         finish();
@@ -200,11 +204,14 @@ public class SplitBillActivity extends AppCompatActivity {
                     } else if(flag == 0){
                         Bill bill  = new Bill(gName, map, amount1);
                         billRef.document(gName).set(bill);
+                        Toast.makeText(SplitBillActivity.this,"Bill Split Done", Toast.LENGTH_LONG).show();
+
                         flag =1;
                         Intent toBack = new Intent(SplitBillActivity.this, HomeActivity.class);
                         startActivity(toBack);
                         finish();
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             });
     }

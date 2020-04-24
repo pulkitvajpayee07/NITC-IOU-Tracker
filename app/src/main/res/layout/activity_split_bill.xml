@@ -9,14 +9,16 @@
 
     <ListView
         android:id="@+id/listPerson"
-        android:layout_width="301dp"
-        android:layout_height="363dp"
+        android:layout_width="247dp"
+        android:layout_height="297dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.227"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43">
+        app:layout_constraintVertical_bias="0.317"
+
+        >
 
     </ListView>
 
@@ -24,20 +26,24 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="20dp"
         android:text="Select persons"
         android:textColor="#000000"
-        android:textSize="30dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        />
 
     <Button
         android:id="@+id/button12"
-        android:layout_width="151dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="56dp"
+        android:background="#000000"
         android:text="Split"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="@+id/editText7"
         app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
@@ -53,12 +59,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/listPerson"
         app:layout_constraintTop_toBottomOf="@+id/listPerson"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.032" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="164dp"
-        android:layout_height="39dp"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -72,20 +78,42 @@
         android:layout_marginBottom="8dp"
         android:text=" Paid By"
         android:textColor="#000000"
-        android:textSize="30dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/listPerson"
         app:layout_constraintStart_toStartOf="@+id/listPerson" />
 
     <Button
         android:id="@+id/button16"
-        android:layout_width="89dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:background="#F2E77302"
         android:text="Back"
-        app:layout_constraintEnd_toEndOf="@+id/button12"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button12"
+        app:layout_constraintEnd_toStartOf="@+id/button12"
+        app:layout_constraintHorizontal_bias="0.697"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button12" />
+
+    <ImageButton
+        android:id="@+id/imageButton12"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/button12"
+        app:layout_constraintStart_toEndOf="@+id/button12"
+        app:layout_constraintTop_toTopOf="@+id/button12"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="103dp"
+        android:layout_height="98dp"
+        android:indeterminateTint="#F2E77302"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

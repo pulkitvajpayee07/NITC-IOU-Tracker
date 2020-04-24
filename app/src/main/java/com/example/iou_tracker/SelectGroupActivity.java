@@ -3,7 +3,7 @@ package com.example.iou_tracker;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +47,6 @@ public class SelectGroupActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null)
             activity = bundle.getString("Activity");
-        Toast.makeText(SelectGroupActivity.this,activity,Toast.LENGTH_SHORT).show();
 
         String email="";
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,16 +57,17 @@ public class SelectGroupActivity extends AppCompatActivity {
         .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(queryDocumentSnapshots != null)
                 for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                     userName = (String) snapshot.get("FName");
                 }
-                Toast.makeText(SelectGroupActivity.this,userName,Toast.LENGTH_SHORT).show();
 
                 db.collection("Group").whereArrayContains("names",userName)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent( QuerySnapshot queryDocumentSnapshots,  FirebaseFirestoreException e) {
                         groupList.clear();
+                        if(queryDocumentSnapshots != null)
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                             groupList.add(snapshot.getString("gName"));
                         }
@@ -101,9 +100,14 @@ public class SelectGroupActivity extends AppCompatActivity {
                 toPaidTo.putExtras(bundle);
                 Intent toCheckBalance = new Intent(SelectGroupActivity.this,checkBalance.class);
                 toCheckBalance.putExtras(bundle);
+                Intent toDeleteGroup = new Intent(SelectGroupActivity.this, Delete_Group.class);
+                toDeleteGroup.putExtras(bundle);
 
 
-                if(activity != null && activity.compareTo("paidTo") == 0){
+                if(activity != null && activity.compareTo("Delete_Group") == 0){
+                    startActivity(toDeleteGroup);
+                    finish();
+                }else if(activity != null && activity.compareTo("paidTo") == 0){
                     startActivity(toPaidTo);
                     finish();
                 }

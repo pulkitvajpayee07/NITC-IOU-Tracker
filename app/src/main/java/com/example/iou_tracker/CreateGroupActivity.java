@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,10 +41,11 @@ public class CreateGroupActivity extends AppCompatActivity {
     Button btShowName,btBack;
     EditText gName;
     CollectionReference groupRef = db.collection("Group");
-    String userName = "";
+    String userName = "",allReadyGroup=" ";
     int flag = 0;
     List<String> nameList = new ArrayList();
     private View view;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         listView = findViewById(R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         btBack = findViewById(R.id.button19);
+        progressBar = findViewById(R.id.progressBar4);
 
 
         String email="";
@@ -64,10 +69,10 @@ public class CreateGroupActivity extends AppCompatActivity {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if(queryDocumentSnapshots != null)
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                             userName = (String) snapshot.get("FName");
                         }
-                        Toast.makeText(CreateGroupActivity.this,userName,Toast.LENGTH_SHORT).show();
 
                         db.collection("Users").addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
@@ -82,7 +87,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                                 for(int j =0;j<nameList.size();j++){
                                     names[j] = nameList.get(j);
                                 }
-
+                                Arrays.sort(names);
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateGroupActivity.this,R.layout.row_layout, R.id.txt_lan,names);
                                 adapter.notifyDataSetChanged();
                                 listView.setAdapter(adapter);
@@ -107,10 +112,12 @@ public class CreateGroupActivity extends AppCompatActivity {
         btShowName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(selectedItems.isEmpty()){
                     Toast.makeText(CreateGroupActivity.this,"Please select Group member",Toast.LENGTH_LONG).show();
                     listView.requestFocus();
                 }else {
+                    flag = 0;
                     addGroup();
                 }
             }
@@ -124,16 +131,37 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     }
     public void addGroup(){
-        if(gName.getText().toString().trim().isEmpty()){
-            gName.setError("Please enter Group Name");
-            gName.requestFocus();
-        }
-        else {
-            Group group = new Group(gName.getText().toString(), selectedItems.size(), selectedItems);
-            groupRef.add(group);
-            Intent toBack = new Intent(CreateGroupActivity.this, HomeActivity.class);
-            startActivity(toBack);
-        }
+        progressBar.setVisibility(View.VISIBLE);
+        db.collection("Group").whereEqualTo("gName",gName.getText().toString())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                        if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
+                            for(DocumentSnapshot snapshot : queryDocumentSnapshots){
+                                allReadyGroup = (String)snapshot.get("gName");
+                            }
+                        }
+                        if(gName.getText().toString().compareTo(allReadyGroup)==0 && flag ==0) {
+                            Toast.makeText(CreateGroupActivity.this,"Group Name already Exist",Toast.LENGTH_LONG).show();
+                            gName.setError("Please enter new Group Name");
+                            gName.requestFocus();
+                            flag = 1;
+                        }else if(gName.getText().toString().trim().isEmpty()){
+                            gName.setError("Please enter Group Name");
+                            gName.requestFocus();
+                        } else if(flag == 0){
+                            flag=1;
+                            Group group = new Group(gName.getText().toString(), selectedItems.size(), selectedItems ,userName);
+                            groupRef.document(gName.getText().toString()).set(group);
+                            Toast.makeText(CreateGroupActivity.this,"New Group Created",Toast.LENGTH_LONG).show();
+                            Intent toBack = new Intent(CreateGroupActivity.this, HomeActivity.class);
+                            startActivity(toBack);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
     }
 
 }
