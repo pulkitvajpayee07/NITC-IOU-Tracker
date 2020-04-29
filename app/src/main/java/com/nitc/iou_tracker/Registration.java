@@ -1,6 +1,7 @@
 package com.nitc.iou_tracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,7 +19,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +35,7 @@ public class Registration extends AppCompatActivity {
     ProgressBar progressBar;
     EditText editTextEmail, editTextPassword,editTextPassword2,fNmae,contact;
     private FirebaseAuth mAuth;
+
     String userId;
     FirebaseFirestore fStore;
 
@@ -106,12 +111,14 @@ public class Registration extends AppCompatActivity {
 
             progressBar.setVisibility(View.VISIBLE);
 
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            mAuth.createUserWithEmailAndPassword(email.toLowerCase(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
+
 
                         mAuth.getCurrentUser().sendEmailVerification();
                         Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_SHORT).show();
@@ -119,9 +126,10 @@ public class Registration extends AppCompatActivity {
 
                             userId = mAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("Users").document(userId);
+
                             Map<String, Object> user = new HashMap<>();
                             user.put("FName", name);
-                            user.put("Email", email);
+                            user.put("Email", email.toLowerCase());
                             user.put("Contact", phone);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -133,7 +141,7 @@ public class Registration extends AppCompatActivity {
                         startActivity(new Intent(Registration.this, MainActivity.class));
                         finish();
 
-                        Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_SHORT).show();
                     } else {
 
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {

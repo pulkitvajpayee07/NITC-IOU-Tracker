@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +54,8 @@ public class SelectGroupActivity extends AppCompatActivity {
         if(user != null){
              email = user.getEmail();
         }
+
+
         db.collection("Users").whereEqualTo("Email",email)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -62,6 +65,7 @@ public class SelectGroupActivity extends AppCompatActivity {
                     userName = (String) snapshot.get("FName");
                 }
 
+                if(userName != null)
                 db.collection("Group").whereArrayContains("names",userName)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

@@ -16,6 +16,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+
 public class Delete_Group extends AppCompatActivity {
 
     String gName, userId, userName, createdBy="";
@@ -73,10 +75,40 @@ public class Delete_Group extends AppCompatActivity {
                                 builder.show();
                                 flag = 1;
                             }
-                            else if (flag == 0){
+                            else if (flag == 0 && createdBy != null){
                                 flag =1;
-                                Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(Delete_Group.this,HomeActivity.class));
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Delete_Group.this);
+                                builder.setTitle("Leave Group");
+                                builder.setMessage("Are you sure to Leave?");
+                                builder.setCancelable(false);
+                                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ArrayList<String> name = new ArrayList<>();
+                                        name = (ArrayList<String>) documentSnapshot.get("names");
+                                        name.remove(userName);
+                                        Group NewGroup = new Group(gName,name.size(), name,createdBy);
+                                        db.collection("Group").document(gName).set(NewGroup);
+                                        Toast.makeText(getApplicationContext(), "Exit Group", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Delete_Group.this,HomeActivity.class));
+                                    }
+                                });
+
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(), "You've changed your mind to delete Group", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Delete_Group.this,HomeActivity.class));
+                                    }
+                                });
+
+                                builder.show();
+                                flag = 1;
+
+
+//                                Toast.makeText(Delete_Group.this,"You cannot Delete this Group",Toast.LENGTH_LONG).show();
+//                                startActivity(new Intent(Delete_Group.this,HomeActivity.class));
 
                             }
                         }
