@@ -159,7 +159,7 @@ public class paidTo extends AppCompatActivity {
                                                     if (ele.compareTo(name) == 0) {
                                                         if (d != null) {
                                                             if(d > -amount1){
-                                                                Toast.makeText(paidTo.this,"You cannot pay",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(paidTo.this,"You cannot pay",Toast.LENGTH_LONG).show();
                                                                 return;
                                                             }
                                                             d1 = d + amount1;
@@ -168,7 +168,7 @@ public class paidTo extends AppCompatActivity {
                                                     } else if (ele.compareTo(userName) == 0) {
                                                         if (d != null) {
                                                             if(d < 0.00 && amount1 > d){
-                                                                Toast.makeText(paidTo.this,"You cannot pay",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(paidTo.this,"You cannot pay",Toast.LENGTH_LONG).show();
                                                                 return;
                                                             }
                                                             d1 = d - amount1;

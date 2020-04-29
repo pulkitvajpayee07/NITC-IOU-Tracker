@@ -58,7 +58,7 @@ public class Delete_Group extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         db.collection("Bill").document(gName).delete();
                                         db.collection("Group").document(gName).delete();
-                                        Toast.makeText(getApplicationContext(), "Group Deleted successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Group Deleted successfully", Toast.LENGTH_LONG).show();
                                         flag = 1;
                                         startActivity(new Intent(Delete_Group.this,HomeActivity.class));
                                     }
@@ -67,7 +67,7 @@ public class Delete_Group extends AppCompatActivity {
                                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "You've changed your mind to delete Group", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "You've changed your mind to delete Group", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(Delete_Group.this,HomeActivity.class));
                                     }
                                 });
@@ -98,7 +98,7 @@ public class Delete_Group extends AppCompatActivity {
                                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "You've changed your mind to delete Group", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "You've changed your mind to delete Group", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(Delete_Group.this,HomeActivity.class));
                                     }
                                 });

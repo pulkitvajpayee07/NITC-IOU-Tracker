@@ -121,7 +121,7 @@ public class Registration extends AppCompatActivity {
 
 
                         mAuth.getCurrentUser().sendEmailVerification();
-                        Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_LONG).show();
 
 
                             userId = mAuth.getCurrentUser().getUid();
@@ -141,14 +141,14 @@ public class Registration extends AppCompatActivity {
                         startActivity(new Intent(Registration.this, MainActivity.class));
                         finish();
 
-                        Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Email Verification has been sent", Toast.LENGTH_LONG).show();
                     } else {
 
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                            Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_LONG).show();
 
                         } else {
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }
