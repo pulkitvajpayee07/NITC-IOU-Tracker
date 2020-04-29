@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
 
-                        if (mAuth == null && !mAuth.getCurrentUser().isEmailVerified()) {
+                        if (mAuth == null || !mAuth.getCurrentUser().isEmailVerified()) {
                             Toast.makeText(getApplicationContext(), "Verify email id first", Toast.LENGTH_SHORT).show();
                             return;
                         } else if (task.isSuccessful()) {
