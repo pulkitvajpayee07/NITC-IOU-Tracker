@@ -105,7 +105,7 @@
         android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="Contact number"
-        android:inputType="phone"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmail" />
 

@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 editTextPassword.requestFocus();
                 return;
             }else if (password.length() < 6) {
-                editTextPassword.setError("Minimum length of password should be 6");
+                editTextPassword.setError("Password is not correct");
                 editTextPassword.requestFocus();
                 return;
             }else {
